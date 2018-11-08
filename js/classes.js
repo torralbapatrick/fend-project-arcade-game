@@ -73,14 +73,16 @@ class Enemy extends Entity {
 		this.sprite += 'enemy-bug.png';
 		this.x = x;
 		this.y = y;
+		this.randomInt = Math.floor(Math.random() * 4) + 1; // Returns a random integer from 1 - 4
 	}
 
 	update(dt) {
 		super.update();
 		if (this.isOutOfBoundsX) {
 			this.x = -1;
+			this.randomInt = Math.floor(Math.random() * 4) + 1;
 		} else {
-			this.x += dt;
+			this.x += dt * this.randomInt;
 		}
 	}
 }

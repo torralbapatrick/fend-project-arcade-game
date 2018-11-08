@@ -13,6 +13,16 @@ class Entity {
 		this.isOutOfBoundsX = this.x > 5;
 		this.isOutOfBoundsY = this.y < 1;
 	}
+
+	checkCollisions(playerOrEnemy) {
+		if (this.y === playerOrEnemy.y) {
+			if (this.x >= playerOrEnemy.x - 0.5 && this.x <= playerOrEnemy.x + 0.5) {
+				return true;
+			}
+		} else {
+			return false;
+		}
+	}
 }
 
 class Player extends Entity {

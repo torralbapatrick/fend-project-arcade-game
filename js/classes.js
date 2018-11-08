@@ -29,6 +29,13 @@ class Player extends Entity {
 	constructor() {
 		super();
 		this.sprite += 'char-boy.png';
+		this.moving = false;
+		this.win = false;
+	}
+
+	render() {
+		super.render();
+		this.moving = false;
 	}
 
 	handleInput(input) {
@@ -47,6 +54,15 @@ class Player extends Entity {
 				break;
 			default:
 				break;
+		}
+		this.moving = true;
+	}
+
+	update(dt) {
+		super.update();
+		if (this.isOutOfBoundsY && !this.moving && !this.win) {
+			console.log('Congratulations!');
+			this.win = true;
 		}
 	}
 }

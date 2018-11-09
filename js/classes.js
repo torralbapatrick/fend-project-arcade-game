@@ -18,7 +18,9 @@ class Entity {
 class Player extends Entity {
 	constructor() {
 		super();
-		this.sprite += 'char-boy.png';
+		this.allCharacters = ['char-boy.png', 'char-cat-girl.png', 'char-horn-girl.png', 'char-pink-girl.png', 'char-princess-girl.png'];
+		this.charCounter = 0;
+		this.sprite += this.allCharacters[this.charCounter];
 		this.score = 0;
 		this.lives = 3;
 	}
@@ -50,6 +52,13 @@ class Player extends Entity {
 			this.y = 5;
 			this.score += 100;
 			document.querySelector('.score').innerText = this.score;
+
+			// Change the character when the player wins
+			this.charCounter += 1;
+			if (this.charCounter >= this.allCharacters.length) {
+				this.charCounter = 0;
+			}
+			this.sprite = 'images/' + this.allCharacters[this.charCounter];
 		}
 	}
 
@@ -63,6 +72,8 @@ class Player extends Entity {
 				if (this.lives === 0) {
 					this.lives = 3;
 					this.score = 0;
+					this.sprite = 'images/' + this.allCharacters[0];
+
 					document.querySelector('.score').innerText = this.score;
 					document.querySelector('.lives').innerText = this.lives;
 					window.alert('Game over!');

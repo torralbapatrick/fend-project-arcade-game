@@ -13,16 +13,6 @@ class Entity {
 		this.isOutOfBoundsX = this.x > 5;
 		this.isOutOfBoundsY = this.y < 1;
 	}
-
-	checkCollisions(playerOrEnemy) {
-		if (this.y === playerOrEnemy.y) {
-			if (this.x >= playerOrEnemy.x - 0.5 && this.x <= playerOrEnemy.x + 0.5) {
-				return true;
-			}
-		} else {
-			return false;
-		}
-	}
 }
 
 class Player extends Entity {
@@ -30,6 +20,7 @@ class Player extends Entity {
 		super();
 		this.sprite += 'char-boy.png';
 		this.score = 0;
+		this.lives = 3;
 	}
 
 	handleInput(input) {
@@ -59,6 +50,28 @@ class Player extends Entity {
 			this.y = 5;
 			this.score += 100;
 			document.querySelector('.score').innerText = this.score;
+		}
+	}
+
+	checkCollisions(enemy) {
+		if (this.y === enemy.y) {
+			if (this.x >= enemy.x - 0.5 && this.x <= enemy.x + 0.5) {
+				this.lives -= 1;
+				document.querySelector('.lives').innerText = this.lives;
+
+				// Check if the game is over
+				if (this.lives === 0) {
+					this.lives = 3;
+					this.score = 0;
+					document.querySelector('.score').innerText = this.score;
+					document.querySelector('.lives').innerText = this.lives;
+					window.alert('Game over!');
+				}
+
+				return true;
+			}
+		} else {
+			return false;
 		}
 	}
 }

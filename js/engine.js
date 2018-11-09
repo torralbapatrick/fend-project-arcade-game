@@ -83,12 +83,12 @@ var Engine = (function(global) {
     }
 
     function checkCollisions() {
-        allEnemies.forEach(enemy => {
-            if (enemy.checkCollisions(player) || player.checkCollisions(enemy)) {
+        for (enemy of allEnemies) {
+            if (player.checkCollisions(enemy)) {
                 player.x = 2;
                 player.y = 5;
             }
-        });
+        }
     }
 
     /* This is called by the update function and loops through all of the
@@ -102,6 +102,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+        
         player.update();
     }
 
@@ -182,7 +183,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
     ]);
     Resources.onReady(init);
 

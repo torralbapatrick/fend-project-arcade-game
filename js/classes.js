@@ -42,7 +42,6 @@ class Player extends Entity {
 			default:
 				break;
 		}
-		this.moving = true;
 	}
 
 	update(dt) {
@@ -62,28 +61,42 @@ class Player extends Entity {
 		}
 	}
 
-	checkCollisions(enemy) {
-		if (this.y === enemy.y) {
-			if (this.x >= enemy.x - 0.5 && this.x <= enemy.x + 0.5) {
-				this.lives -= 1;
-				document.querySelector('.lives').innerText = this.lives;
-
-				// Check if the game is over
-				if (this.lives === 0) {
-					this.lives = 3;
-					this.score = 0;
-					this.sprite = 'images/' + this.allCharacters[0];
-
-					document.querySelector('.score').innerText = this.score;
+	checkCollisions(entity) {
+		if (entity === enemy) {
+			if (this.y === enemy.y) {
+				if (this.x >= enemy.x - 0.5 && this.x <= enemy.x + 0.5) {
+					this.lives -= 1;
 					document.querySelector('.lives').innerText = this.lives;
-					window.alert('Game over!');
-				}
 
-				return true;
+					// Check if the game is over
+					if (this.lives === 0) {
+						this.lives = 3;
+						this.score = 0;
+						this.sprite = 'images/' + this.allCharacters[0];
+
+						document.querySelector('.score').innerText = this.score;
+						document.querySelector('.lives').innerText = this.lives;
+						window.alert('Game over!');
+					}
+
+					return true;
+				}
+			} else {
+				return false;
 			}
 		} else {
-			return false;
+			if (this.y === item.y) {
+				if (this.x >= item.x - 0.5 && this.x <= item.x + 0.5) {
+					this.score += 20;
+					document.querySelector('.score').innerText = this.score;
+
+					return true;
+				}
+			} else {
+				return false;
+			}
 		}
+		
 	}
 }
 
@@ -103,6 +116,30 @@ class Enemy extends Entity {
 			this.randomInt = Math.floor(Math.random() * 4) + 1;
 		} else {
 			this.x += dt * this.randomInt;
+
+		}
+	}
+}
+
+class Item extends Entity {
+	constructor() {
+		super();
+		this.sprite += 'gem-blue.png';
+		this.x = -1;
+		this.y = -1;
+		this.seconds = 1;
+	}
+
+	update(dt) {
+		super.update();
+		this.seconds += dt;
+
+		if (Math.floor(this.seconds) % 10 === 0) {
+			this.randomX = Math.floor(Math.random() * 5);
+			this.randomY = Math.floor(Math.random() * 3) + 1;
+			this.x = this.randomX;
+			this.y = this.randomY;
+			this.seconds = 1;
 		}
 	}
 }

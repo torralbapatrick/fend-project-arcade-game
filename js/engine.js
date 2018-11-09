@@ -83,11 +83,18 @@ var Engine = (function(global) {
     }
 
     function checkCollisions() {
+        // Check if the player collides with an enemy
         for (enemy of allEnemies) {
             if (player.checkCollisions(enemy)) {
                 player.x = 2;
                 player.y = 5;
             }
+        }
+
+        // Check if the player collides with an item
+        if (player.checkCollisions(item)) {
+            item.x = -1;
+            item.y = -1;
         }
     }
 
@@ -102,8 +109,8 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        
         player.update();
+        item.update(dt);
     }
 
     /* This function initially draws the "game level", it will then call
@@ -162,8 +169,8 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
         player.render();
+        item.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -187,7 +194,10 @@ var Engine = (function(global) {
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
-        'images/char-princess-girl.png'
+        'images/char-princess-girl.png',
+        'images/gem-blue.png',
+        'images/gem-green.png',
+        'images/gem-orange.png'
     ]);
     Resources.onReady(init);
 

@@ -3,7 +3,8 @@ allEnemies = [...Array(3)].map((_, i) => new Enemy(0, i+1)),
 item = new Item();
 
 const scoreElement = document.querySelector('.score'),
-livesElement = document.querySelector('.lives');
+livesElement = document.querySelector('.lives'),
+timerElement = document.querySelector('.timer');
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {

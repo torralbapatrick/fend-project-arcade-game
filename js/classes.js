@@ -35,6 +35,7 @@ class Player extends Entity {
 		this.sprite += this.allCharacters[this.charCounter];
 		this.score = 0;
 		this.lives = 3;
+		this.setTimer();
 	}
 
 	update(dt) {
@@ -43,6 +44,7 @@ class Player extends Entity {
 		// Check if the player reaches the water
 		if (this.isOutOfBoundsY) {
 			super.resetPosition();
+			this.setTimer();
 
 			// Add 100 points when the player wins or reaches the water
 			this.addPoints(100);
@@ -81,11 +83,15 @@ class Player extends Entity {
 			if (this.y === enemy.y) { // Check if the player and the enemy is in the same Y axis
 				if (this.x >= enemy.x - 0.5 && this.x <= enemy.x + 0.5) { // Check if the player collides with an enemy
 					super.resetPosition();
-
+					this.setTimer();
 					this.lives -= 1;
 					livesElement.innerText = this.lives;
 
-					this.checkIfGameOver();
+					// Check if the game is over
+					if (this.lives === 0) {
+						this.resetValues();
+					}
+					
 
 					return true;
 				}
@@ -96,7 +102,6 @@ class Player extends Entity {
 			if (this.y === item.y) { // Check if the player and the item is in the same Y axis
 				if (this.x >= item.x - 0.5 && this.x <= item.x + 0.5) { // Check if the player collides with an item
 					item.resetPosition();
-
 					this.addPoints(20);
 
 					return true;
@@ -112,21 +117,35 @@ class Player extends Entity {
 		scoreElement.innerText = this.score;
 	}
 
-	checkIfGameOver() {
-		if (this.lives === 0) {
-			super.resetPosition();
-			item.resetPosition();
+	resetValues() {
+		super.resetPosition();
+		item.resetPosition();
 
-			// Reset values
-			this.charCounter = 0;
-			this.sprite = 'images/' + this.allCharacters[this.charCounter];
-			this.score = 0;
-			this.lives = 3;
+		this.charCounter = 0;
+		this.sprite = 'images/' + this.allCharacters[this.charCounter];
+		this.score = 0;
+		this.lives = 3;
+		this.setTimer();
 
-			scoreElement.innerText = this.score;
-			livesElement.innerText = this.lives;
-			window.alert('Game over!');
-		}
+		scoreElement.innerText = this.score;
+		livesElement.innerText = this.lives;
+		window.alert('Game over!');
+	}
+
+	setTimer() {
+		clearInterval(this.clock);
+		this.seconds = 10;
+		document.querySelector('.timer').innerText = 10;
+
+		this.clock = window.setInterval(() => {
+			this.seconds -= 1;
+
+			if (this.seconds <= 0) {
+				this.resetValues();
+			}
+
+			timerElement.innerText = this.seconds;
+		}, 1000);
 	}
 }
 
@@ -172,8 +191,8 @@ class Item extends Entity {
 		super.update();
 		this.seconds += dt;
 
-		// Spawn an item in random location every 10 seconds
-		if (Math.floor(this.seconds) % 10 === 0) {
+		// Spawn an item in random location every 6 seconds
+		if (Math.floor(this.seconds) % 6 === 0) {
 			this.x = super.randomInt(5, 0);
 			this.y = super.randomInt(3, 1);
 			this.seconds = 1;

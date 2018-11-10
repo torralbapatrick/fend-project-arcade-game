@@ -43,11 +43,9 @@ class Player extends Entity {
 
 		// Check if the player reaches the water
 		if (this.isOutOfBoundsY) {
-			super.resetPosition();
-			this.setTimer();
-
-			// Add 100 points when the player wins or reaches the water
-			this.addPoints(100);
+			super.resetPosition(); // Reset player position
+			this.setTimer(); // Reset timer
+			this.addPoints(100); // Add 100 points when the player wins or reaches the water
 
 			// Change the character when the player wins
 			this.charCounter += 1;
@@ -84,14 +82,7 @@ class Player extends Entity {
 				if (this.x >= enemy.x - 0.5 && this.x <= enemy.x + 0.5) { // Check if the player collides with an enemy
 					super.resetPosition();
 					this.setTimer();
-					this.lives -= 1;
-					livesElement.innerText = this.lives;
-
-					// Check if the game is over
-					if (this.lives === 0) {
-						this.resetValues();
-					}
-					
+					this.decreaseLives();
 
 					return true;
 				}
@@ -117,6 +108,16 @@ class Player extends Entity {
 		scoreElement.innerText = this.score;
 	}
 
+	decreaseLives() {
+		this.lives -= 1;
+		livesElement.innerText = this.lives;
+
+		// Check if the game is over
+		if (this.lives === 0) {
+			this.resetValues();
+		}			
+	}
+
 	resetValues() {
 		super.resetPosition();
 		item.resetPosition();
@@ -135,13 +136,14 @@ class Player extends Entity {
 	setTimer() {
 		clearInterval(this.clock);
 		this.seconds = 10;
-		document.querySelector('.timer').innerText = 10;
+		document.querySelector('.timer').innerText = this.seconds;
 
 		this.clock = window.setInterval(() => {
 			this.seconds -= 1;
 
 			if (this.seconds <= 0) {
-				this.resetValues();
+				this.decreaseLives();
+				this.seconds = 10;
 			}
 
 			timerElement.innerText = this.seconds;

@@ -35,6 +35,7 @@ class Player extends Entity {
 		this.sprite += this.allCharacters[this.charCounter];
 		this.score = 0;
 		this.lives = 3;
+		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
 		this.setTimer();
 	}
 
@@ -61,15 +62,31 @@ class Player extends Entity {
 		switch (input) {
 			case 'left':
 				this.x = this.x > 0 ? this.x - 1 : this.x;
+				this.moveLeft = true;
+				this.moveRight = false;
+				this.moveUp = false;
+				this.moveDown = false;
 				break;
 			case 'up':
 				this.y = this.y > 0 ? this.y - 1 : this.y;
+				this.moveLeft = false;
+				this.moveRight = false;
+				this.moveUp = true;
+				this.moveDown = false;
 				break;
 			case 'right':
 				this.x = this.x < 4 ? this.x + 1 : this.x;
+				this.moveLeft = false;
+				this.moveRight = true;
+				this.moveUp = false;
+				this.moveDown = false;
 				break;
 			case 'down':
 				this.y = this.y < 5 ? this.y + 1 : this.y;
+				this.moveLeft = false;
+				this.moveRight = false;
+				this.moveUp = false;
+				this.moveDown = true;
 				break;
 			default:
 				break;
@@ -92,24 +109,37 @@ class Player extends Entity {
 		} else {
 			if (this.y === item.y) { // Check if the player and the item is in the same Y axis
 				if (this.x >= item.x - 0.5 && this.x <= item.x + 0.5) { // Check if the player collides with an item
-					item.resetPosition();
-
 					// Check item
-					if (item.sprite.includes('blue')) {
-						this.addPoints(20);
-					} else if (item.sprite.includes('green')) {
-						this.addPoints(30);
-					} else if (item.sprite.includes('orange')) {
-						this.addPoints(40);
-					} else if (item.sprite.includes('star')) {
-						this.addPoints(50);
-					} else if (item.sprite.includes('heart')) {
-						if (this.lives !== 3) {
-							this.lives += 1;
-							livesElement.innerText = this.lives;
+					if (item.sprite.includes('rock')) {
+						// Rock obstacle
+						if (this.moveLeft) {
+							this.x += 1;
+						} else if (this.moveRight) {
+							this.x -= 1;
+						} else if (this.moveUp) {
+							this.y += 1;
+						} else if (this.moveDown) {
+							this.y -= 1;
 						}
+					} else {
+						if (item.sprite.includes('blue')) {
+							this.addPoints(20);
+						} else if (item.sprite.includes('green')) {
+							this.addPoints(30);
+						} else if (item.sprite.includes('orange')) {
+							this.addPoints(40);
+						} else if (item.sprite.includes('star')) {
+							this.addPoints(50);
+						} else if (item.sprite.includes('heart')) {
+							if (this.lives !== 3) {
+								this.lives += 1;
+								livesElement.innerText = this.lives;
+							}
+						}
+						
+						item.resetPosition();
 					}
-
+					
 					return true;
 				}
 			} else {
@@ -193,11 +223,10 @@ class Enemy extends Entity {
 class Item extends Entity {
 	constructor() {
 		super();
-		this.allItems = ['gem-blue.png', 'gem-green.png', 'gem-orange.png', 'star.png', 'heart.png'];
+		this.allItems = ['gem-blue.png', 'gem-green.png', 'gem-orange.png', 'star.png', 'heart.png', 'rock.png'];
 		this.itemCounter = 0;
 		this.sprite += this.allItems[this.itemCounter];
 		this.resetPosition();
-		this.level = 1;
 	}
 
 	// Hide the item at the beginning of the game
@@ -218,7 +247,7 @@ class Item extends Entity {
 
 		// Spawn a random item in random location
 		if (Math.floor(this.seconds) % spawnTime === 0) {
-			this.itemCounter = super.randomInt(5, 0);
+			this.itemCounter = super.randomInt(6, 0);
 			this.sprite = 'images/' + this.allItems[this.itemCounter];
 			this.x = super.randomInt(5, 0);
 			this.y = super.randomInt(3, 1);

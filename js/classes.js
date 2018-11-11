@@ -93,7 +93,22 @@ class Player extends Entity {
 			if (this.y === item.y) { // Check if the player and the item is in the same Y axis
 				if (this.x >= item.x - 0.5 && this.x <= item.x + 0.5) { // Check if the player collides with an item
 					item.resetPosition();
-					this.addPoints(20);
+
+					// Check item
+					if (item.sprite.includes('blue')) {
+						this.addPoints(20);
+					} else if (item.sprite.includes('green')) {
+						this.addPoints(30);
+					} else if (item.sprite.includes('orange')) {
+						this.addPoints(40);
+					} else if (item.sprite.includes('star')) {
+						this.addPoints(50);
+					} else if (item.sprite.includes('heart')) {
+						if (this.lives !== 3) {
+							this.lives += 1;
+							livesElement.innerText = this.lives;
+						}
+					}
 
 					return true;
 				}
@@ -142,6 +157,7 @@ class Player extends Entity {
 			this.seconds -= 1;
 
 			if (this.seconds <= 0) {
+				super.resetPosition();
 				this.decreaseLives();
 				this.seconds = 10;
 			}
@@ -177,8 +193,11 @@ class Enemy extends Entity {
 class Item extends Entity {
 	constructor() {
 		super();
-		this.sprite += 'gem-blue.png';
+		this.allItems = ['gem-blue.png', 'gem-green.png', 'gem-orange.png', 'star.png', 'heart.png'];
+		this.itemCounter = 0;
+		this.sprite += this.allItems[this.itemCounter];
 		this.resetPosition();
+		this.level = 1;
 	}
 
 	// Hide the item at the beginning of the game
@@ -191,10 +210,16 @@ class Item extends Entity {
 
 	update(dt) {
 		super.update();
+		this.spawnItem(dt, 7); // Spawn an item every 7 seconds
+	}
+
+	spawnItem(dt, spawnTime) {
 		this.seconds += dt;
 
-		// Spawn an item in random location every 6 seconds
-		if (Math.floor(this.seconds) % 6 === 0) {
+		// Spawn a random item in random location
+		if (Math.floor(this.seconds) % spawnTime === 0) {
+			this.itemCounter = super.randomInt(5, 0);
+			this.sprite = 'images/' + this.allItems[this.itemCounter];
 			this.x = super.randomInt(5, 0);
 			this.y = super.randomInt(3, 1);
 			this.seconds = 1;

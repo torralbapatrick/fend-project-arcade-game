@@ -37,6 +37,7 @@ class Player extends Entity {
 		this.lives = 3;
 		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
 		this.setTimer();
+		this.checkHighscore();
 	}
 
 	update(dt) {
@@ -136,7 +137,7 @@ class Player extends Entity {
 								livesElement.innerText = this.lives;
 							}
 						}
-						
+
 						item.resetPosition();
 					}
 					
@@ -153,12 +154,28 @@ class Player extends Entity {
 		scoreElement.innerText = this.score;
 	}
 
+	checkHighscore() {
+		this.highscore = window.localStorage.getItem('highscore');
+
+		if (this.highscore !== null) {
+			if (this.score > this.highscore) {
+				this.highscore = this.score;
+				window.localStorage.setItem('highscore', this.score);
+			}
+		} else {
+			window.localStorage.setItem('highscore', this.score);
+		}
+
+		document.querySelector('.highscore').innerText = this.highscore;
+	}
+
 	decreaseLives() {
 		this.lives -= 1;
 		livesElement.innerText = this.lives;
 
 		// Check if the game is over
 		if (this.lives === 0) {
+			this.checkHighscore();
 			this.resetValues();
 		}			
 	}

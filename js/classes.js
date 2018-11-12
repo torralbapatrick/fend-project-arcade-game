@@ -151,7 +151,18 @@ class Player extends Entity {
 
 	addPoints(points) {
 		this.score += points;
-		scoreElement.innerText = this.score;
+		scoreElement.innerText = `Score: ${this.score}`;
+	}
+
+	decreaseLives() {
+		this.lives -= 1;
+		livesElement.innerText = this.lives;
+
+		// Check if the game is over
+		if (this.lives === 0) {
+			this.checkHighscore();
+			this.resetValues();
+		}			
 	}
 
 	checkHighscore() {
@@ -166,18 +177,7 @@ class Player extends Entity {
 			window.localStorage.setItem('highscore', this.score);
 		}
 
-		document.querySelector('.highscore').innerText = this.highscore;
-	}
-
-	decreaseLives() {
-		this.lives -= 1;
-		livesElement.innerText = this.lives;
-
-		// Check if the game is over
-		if (this.lives === 0) {
-			this.checkHighscore();
-			this.resetValues();
-		}			
+		document.querySelector('.highscore').innerText = `Highscore: ${this.highscore}`;
 	}
 
 	resetValues() {
@@ -190,7 +190,7 @@ class Player extends Entity {
 		this.lives = 3;
 		this.setTimer();
 
-		scoreElement.innerText = this.score;
+		scoreElement.innerText = `Score: ${this.score}`;
 		livesElement.innerText = this.lives;
 		window.alert('Game over!');
 	}

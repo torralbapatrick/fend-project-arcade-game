@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Effective JavaScript: Frogger Clone</title>
+
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,8 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>Effective JavaScript: Frogger</title>
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -25,7 +28,11 @@
         <section>
             <div class="score-panel">
                 <span class="score">Score: 0</span>
-                <span class="lives">3</span>   
+                <ul class="lives">
+                    <li><i class="fas fa-heart"></i></li>
+                    <li><i class="fas fa-heart"></i></li>
+                    <li><i class="fas fa-heart"></i></li>
+                </ul>   
             </div>
             <div class="score-panel"> 
                 <span class="highscore">Highscore: 0</span>

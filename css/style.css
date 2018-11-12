@@ -21,3 +21,14 @@ canvas {
 	justify-content: space-between;
 	margin: auto;
 }
+
+.score-panel .lives {
+	color: #d73f00;
+    display: inline-block;
+    margin: 0;
+}
+
+.score-panel .lives li {
+    display: inline-block;
+    list-style: none;
+}

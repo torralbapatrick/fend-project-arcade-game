@@ -132,9 +132,9 @@ class Player extends Entity {
 						} else if (item.sprite.includes('star')) {
 							this.addPoints(50);
 						} else if (item.sprite.includes('heart')) {
-							if (this.lives !== 3) {
+							if (this.lives < 3) {
 								this.lives += 1;
-								livesElement.innerText = this.lives;
+								livesElement.innerHTML += `<li><i class="fas fa-heart"></i></li> `;
 							}
 						}
 
@@ -156,7 +156,7 @@ class Player extends Entity {
 
 	decreaseLives() {
 		this.lives -= 1;
-		livesElement.innerText = this.lives;
+		livesElement.removeChild(livesElement.children[0]);
 
 		// Check if the game is over
 		if (this.lives === 0) {
@@ -191,7 +191,9 @@ class Player extends Entity {
 		this.setTimer();
 
 		scoreElement.innerText = `Score: ${this.score}`;
-		livesElement.innerText = this.lives;
+		for (let i = 0; i < this.lives; i++) {
+			livesElement.innerHTML += `<li><i class="fas fa-heart"></i></li> `;
+		}
 		window.alert('Game over!');
 	}
 

@@ -172,7 +172,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        player.resetValues();
     }
 
     /* Go ahead and load all of the images we know we're going to need to

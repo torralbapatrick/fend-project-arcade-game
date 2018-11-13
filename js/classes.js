@@ -36,7 +36,7 @@ class Player extends Entity {
 		this.score = 0;
 		this.lives = 3;
 		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
-		this.setTimer();
+		// this.setTimer();
 		this.checkHighscore();
 	}
 
@@ -162,6 +162,7 @@ class Player extends Entity {
 		if (this.lives === 0) {
 			this.checkHighscore();
 			this.resetValues();
+			window.alert('Game over!');
 		}			
 	}
 
@@ -194,7 +195,6 @@ class Player extends Entity {
 		for (let i = 0; i < this.lives; i++) {
 			livesElement.innerHTML += `<li><i class="fas fa-heart"></i></li> `;
 		}
-		window.alert('Game over!');
 	}
 
 	setTimer() {

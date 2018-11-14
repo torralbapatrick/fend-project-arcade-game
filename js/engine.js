@@ -63,9 +63,11 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        reset();
-        lastTime = Date.now();
-        main();
+        playGameElement.addEventListener('click', function() {
+            reset();
+            lastTime = Date.now();
+            main();
+        });
     }
 
     /* This function is called by main (our game loop) and itself calls all

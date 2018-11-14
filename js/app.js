@@ -4,7 +4,11 @@ item = new Item();
 
 const scoreElement = document.querySelector('.score'),
 livesElement = document.querySelector('.lives'),
-timerElement = document.querySelector('.timer');
+timerElement = document.querySelector('.timer'),
+mainScreenElement = document.querySelector('.main-screen'),
+playGameElement = document.querySelector('.play-game-btn'),
+canvasElement = document.querySelector('.canvas'),
+statsElement = document.querySelector('.stats-panel');
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
@@ -15,4 +19,10 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+});
+
+playGameElement.addEventListener('click', function() {
+	mainScreenElement.style.display = 'none';
+	canvasElement.style.display = 'block';
+	statsElement.style.display = 'block';
 });

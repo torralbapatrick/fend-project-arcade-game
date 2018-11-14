@@ -1,8 +1,15 @@
+/*
+ * Global styles
+ */
 body {
-    background: #000;
+    background: linear-gradient(#000047 0%, #000 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #fff;
-	font-family: 'Coda', cursive;
+    height: 100%;
+    width: 100%;
     text-align: center;
+	font-family: 'Montserrat', sans-serif;
 }
 
 canvas {
@@ -11,24 +18,112 @@ canvas {
 	margin-top: -30px;
 }
 
+h1 {
+	font-family: 'Bangers', cursive;
+	letter-spacing: 3px;
+}
+
+/*
+ * Styles for the header
+ */
 .header {
 	margin-top: 30px;
 }
+/*
 
-.score-panel {
+ * Styles for the game canvas
+ */
+.canvas {
+	display: none;
+}
+
+/*
+ * Styles for the statistics panel
+ */
+.stats-panel {
+	display: none;
+}
+
+.stats {
 	max-width: 505px;
 	display: flex;
 	justify-content: space-between;
 	margin: auto;
 }
 
-.score-panel .lives {
+.stats .lives {
 	color: #d73f00;
     display: inline-block;
     margin: 0;
 }
 
-.score-panel .lives li {
+.stats .lives li {
     display: inline-block;
     list-style: none;
+}
+
+/*
+ * Styles for the main screen
+ */
+.main-screen {
+	margin-top: 30px;
+}
+
+.main-screen table {
+	margin: auto;
+	text-align: left;
+}
+
+.main-screen td {
+	padding-left: 10px;
+}
+
+.main-screen img {
+	width: 30px;
+	height: auto;
+}
+
+.main-screen ul {
+	list-style: none;
+	margin: auto;
+	padding: 0;
+}
+
+.main-screen i {
+	font-size: 2em;
+}
+
+.objective,
+.play-game {
+	margin-bottom: 30px;
+}
+
+.play-game button {
+	color: #fff;
+	cursor: pointer;
+	background: #000047;
+	border: 0;
+	border-radius: 5px;
+	font-size: 1.5em;
+	margin-top: 20px;
+	padding: 5px 20px;
+    text-transform: uppercase;
+}
+
+.play-game button:hover {
+    background: #28afa3;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+}
+
+.controls,
+.items {
+	margin: 10px 0;
+}
+
+.controls td {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }

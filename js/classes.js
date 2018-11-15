@@ -192,6 +192,7 @@ class Player extends Entity {
 	resetValues() {
 		super.resetPosition();
 		item.resetPosition();
+		allEnemies = [...Array(3)].map((_, i) => new Enemy(-1, i+1));
 
 		this.charCounter = 0;
 		this.sprite = 'images/' + this.allCharacters[this.charCounter];

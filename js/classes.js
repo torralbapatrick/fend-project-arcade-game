@@ -131,7 +131,7 @@ class Player extends Entity {
 						} else if (item.sprite.includes('orange')) {
 							this.addPoints(40);
 						} else if (item.sprite.includes('star')) {
-							this.addPoints(50);
+							this.addPoints(300);
 						} else if (item.sprite.includes('heart')) {
 							if (this.lives < 3) {
 								this.lives += 1;

@@ -39,3 +39,46 @@ exitElement.addEventListener('click', function() {
 	canvasElement.style.display = 'none';
 	statsElement.style.display = 'none';
 });
+
+
+// Swipe player controls for mobile
+let startX = null, startY = null;
+canvasElement.addEventListener('touchstart', function(e){
+	if (e.touches.length === 1) {
+		// Just one finger touched
+		startX = e.touches.item(0).clientX;
+		startY = e.touches.item(0).clientY;
+	} else {
+		// If a second finger hit the screen, abort the touch
+		start = null;
+		startY = null;
+	}
+});
+
+canvasElement.addEventListener('touchend', function(e){
+	let offset = 100; // At least 100px are a swipe
+	if (startX || startY) {
+		let endX = e.changedTouches.item(0).clientX;
+		let endY = e.changedTouches.item(0).clientY;
+
+		// Left to right swipe
+		if (endX > startX + offset) {
+			player.handleInput('right');
+		}
+
+		// Right to left swipe
+		if (endX < startX - offset ) {
+			player.handleInput('left');
+		}
+
+		// Top to bottom swipe
+		if (endY > startY + offset) {
+			player.handleInput('down');
+		}
+
+		// Bottom to top swipe
+		if (endY < startY - offset) {
+			player.handleInput('up');
+		}
+	}
+});

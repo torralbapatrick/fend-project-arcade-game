@@ -133,7 +133,7 @@ class Player extends Entity {
 							// Multiply points for 3 seconds
 							this.multiplyPoints();
 						} else if (item.sprite.includes('star')) {
-							this.addPoints(300);
+							this.addPoints(500);
 						} else if (item.sprite.includes('heart')) {
 							if (this.lives < 3) {
 								this.lives += 1;

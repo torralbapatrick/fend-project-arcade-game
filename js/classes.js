@@ -37,6 +37,7 @@ class Player extends Entity {
 		this.lives = 3;
 		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
 		this.checkHighscore();
+		this.hasOrangeGem = false;
 	}
 
 	update(dt) {
@@ -129,7 +130,8 @@ class Player extends Entity {
 							// Slows the enemy for 3 seconds
 							enemy.setSpeed(0.5, 3000);
 						} else if (item.sprite.includes('orange')) {
-							this.addPoints(40);
+							// Multiply points for 3 seconds
+							this.multiplyPoints();
 						} else if (item.sprite.includes('star')) {
 							this.addPoints(300);
 						} else if (item.sprite.includes('heart')) {
@@ -151,8 +153,18 @@ class Player extends Entity {
 	}
 
 	addPoints(points) {
-		this.score += points;
+		this.hasOrangeGem ? this.score += points * 2 : this.score += points;
+
 		scoreElement.innerText = `Score: ${this.score}`;
+	}
+
+	multiplyPoints() {
+		this.hasOrangeGem = true;
+
+		window.setTimeout(() => {
+			this.hasOrangeGem = false;
+			console.log(this.hasOrangeGem);
+		}, 3000);
 	}
 
 	decreaseLives() {

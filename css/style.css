@@ -98,7 +98,8 @@ h1 {
 	margin-bottom: 30px;
 }
 
-.play-game button {
+.play-game button,
+.exit button {
 	color: #fff;
 	cursor: pointer;
 	background: #000047;
@@ -107,10 +108,11 @@ h1 {
 	font-size: 1.5em;
 	margin-top: 20px;
 	padding: 5px 20px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
-.play-game button:hover {
+.play-game button:hover,
+.exit button:hover {
     background: #28afa3;
     -moz-transition: all 0.4s ease-in-out;
     -ms-transition: all 0.4s ease-in-out;
@@ -126,4 +128,19 @@ h1 {
 .controls td {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+.game-over,
+.new-highscore {
+	display: none;
+}
+
+@media screen and (min-width: 767.98px) {
+	.exit {
+		text-align: right;
+	}
+
+	.play-again {
+		text-align: left;
+	}
 }

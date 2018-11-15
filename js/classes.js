@@ -36,7 +36,6 @@ class Player extends Entity {
 		this.score = 0;
 		this.lives = 3;
 		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
-		// this.setTimer();
 		this.checkHighscore();
 	}
 
@@ -160,9 +159,13 @@ class Player extends Entity {
 
 		// Check if the game is over
 		if (this.lives === 0) {
+			this.stopTimer();
 			this.checkHighscore();
-			this.resetValues();
-			window.alert('Game over!');
+
+			finalScoreElement.innerText = this.score;
+			gameOverElement.style.display = 'block';
+			canvasElement.style.display = 'none';
+			statsElement.style.display = 'none';
 		}			
 	}
 
@@ -173,6 +176,9 @@ class Player extends Entity {
 			if (this.score > this.highscore) {
 				this.highscore = this.score;
 				window.localStorage.setItem('highscore', this.score);
+				document.querySelector('.new-highscore').style.display = 'block';
+			} else {
+				document.querySelector('.new-highscore').style.display = 'none';
 			}
 		} else {
 			window.localStorage.setItem('highscore', this.score);
@@ -198,11 +204,11 @@ class Player extends Entity {
 	}
 
 	setTimer() {
-		clearInterval(this.clock);
+		clearInterval(this.timer);
 		this.seconds = 10;
 		document.querySelector('.timer').innerText = this.seconds;
 
-		this.clock = window.setInterval(() => {
+		this.timer = window.setInterval(() => {
 			this.seconds -= 1;
 
 			if (this.seconds <= 0) {
@@ -213,6 +219,10 @@ class Player extends Entity {
 
 			timerElement.innerText = this.seconds;
 		}, 1000);
+	}
+
+	stopTimer() {
+		clearInterval(this.timer);
 	}
 }
 

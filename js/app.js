@@ -6,9 +6,12 @@ const scoreElement = document.querySelector('.score'),
 livesElement = document.querySelector('.lives'),
 timerElement = document.querySelector('.timer'),
 mainScreenElement = document.querySelector('.main-screen'),
-playGameElement = document.querySelector('.play-game-btn'),
+playGameElement = document.querySelectorAll('.play-game-btn'),
 canvasElement = document.querySelector('.canvas'),
-statsElement = document.querySelector('.stats-panel');
+statsElement = document.querySelector('.stats-panel'),
+gameOverElement = document.querySelector('.game-over'),
+exitElement = document.querySelector('.exit-btn'),
+finalScoreElement = document.querySelector('.final-score');
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
@@ -21,8 +24,18 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-playGameElement.addEventListener('click', function() {
-	mainScreenElement.style.display = 'none';
-	canvasElement.style.display = 'block';
-	statsElement.style.display = 'block';
+for (playGameBtn of playGameElement) {
+	playGameBtn.addEventListener('click', function() {
+		mainScreenElement.style.display = 'none';
+		gameOverElement.style.display = 'none';
+		canvasElement.style.display = 'block';
+		statsElement.style.display = 'block';
+	});
+}
+
+exitElement.addEventListener('click', function() {
+	mainScreenElement.style.display = 'block';
+	gameOverElement.style.display = 'none';
+	canvasElement.style.display = 'none';
+	statsElement.style.display = 'none';
 });

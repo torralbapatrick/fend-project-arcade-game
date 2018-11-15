@@ -63,11 +63,13 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        playGameElement.addEventListener('click', function() {
-            reset();
-            lastTime = Date.now();
-            main();
-        });
+        for (playGameBtn of playGameElement) {
+            playGameBtn.addEventListener('click', function() {
+                reset();
+                lastTime = Date.now();
+                main();
+            });
+        }
     }
 
     /* This function is called by main (our game loop) and itself calls all

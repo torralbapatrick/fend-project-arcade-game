@@ -123,9 +123,11 @@ class Player extends Entity {
 						}
 					} else {
 						if (item.sprite.includes('blue')) {
-							this.addPoints(20);
+							// Freeze the enemy for 3 seconds
+							enemy.setSpeed(0, 3000);
 						} else if (item.sprite.includes('green')) {
-							this.addPoints(30);
+							// Slows the enemy for 3 seconds
+							enemy.setSpeed(0.5, 3000);
 						} else if (item.sprite.includes('orange')) {
 							this.addPoints(40);
 						} else if (item.sprite.includes('star')) {
@@ -233,7 +235,7 @@ class Enemy extends Entity {
 		this.sprite += 'enemy-bug.png';
 		this.x = x;
 		this.y = y;
-		this.randomInt = super.randomInt(4, 1); // Returns a random integer from 1 - 4
+		this.speed = super.randomInt(4, 1); // Returns a random integer from 1 - 4
 	}
 
 	update(dt) {
@@ -241,10 +243,27 @@ class Enemy extends Entity {
 
 		if (this.isOutOfBoundsX) {
 			this.x = -1;
-			this.randomInt = super.randomInt(4, 1);
+			this.speed = super.randomInt(4, 1);
 		} else {
-			this.x += dt * this.randomInt; // Sets the enemy's speed to random
+			this.x += dt * this.speed; // Sets the enemy's speed to random
 		}
+	}
+
+	setSpeed(speed, time) {
+		let enemySpeed = [];
+        let i = 0;
+
+        for(enemy of allEnemies) {
+            enemySpeed.push(enemy.speed);
+            enemy.speed = speed;
+        }
+
+        setTimeout(function () {
+            for(enemy of allEnemies) {
+                enemy.speed = enemySpeed[i];
+                i += 1;
+            }
+        }, time);
 	}
 }
 

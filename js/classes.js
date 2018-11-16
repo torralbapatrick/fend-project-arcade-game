@@ -391,7 +391,7 @@ class Enemy extends Entity {
 class Item extends Entity {
 	constructor() {
 		super();
-		this.allItems = ['gem-blue.png', 'gem-green.png', 'gem-orange.png', 'star.png', 'heart.png', 'rock.png'];
+		this.allItems = ['gem-blue.png', 'gem-green.png', 'gem-orange.png', 'Star.png', 'Heart.png', 'Rock.png'];
 		this.itemCounter = 0;
 		this.sprite += this.allItems[this.itemCounter];
 		this.resetPosition();

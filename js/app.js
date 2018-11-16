@@ -13,7 +13,7 @@ gameOverElement = document.querySelector('.game-over'),
 exitElement = document.querySelector('.exit-btn'),
 finalScoreElement = document.querySelector('.final-score');
 
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keyup', evt => {
     var allowedKeys = {
         37: 'left',
         38: 'up',
@@ -21,13 +21,13 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
     
-	if (canvasElement.style.display === 'block' && statsElement.style.display == 'block') {
-    	player.handleInput(allowedKeys[e.keyCode]);
+	if (canvasElement.style.display === 'block' && statsElement.style.display === 'block') {
+    	player.handleInput(allowedKeys[evt.keyCode]);
     }
 });
 
 for (playGameBtn of playGameElement) {
-	playGameBtn.addEventListener('click', function() {
+	playGameBtn.addEventListener('click', () => {
 		mainScreenElement.style.display = 'none';
 		gameOverElement.style.display = 'none';
 		canvasElement.style.display = 'block';
@@ -35,7 +35,7 @@ for (playGameBtn of playGameElement) {
 	});
 }
 
-exitElement.addEventListener('click', function() {
+exitElement.addEventListener('click', () => {
 	mainScreenElement.style.display = 'block';
 	gameOverElement.style.display = 'none';
 	canvasElement.style.display = 'none';
@@ -45,11 +45,11 @@ exitElement.addEventListener('click', function() {
 
 // Swipe player controls for mobile
 let startX = null, startY = null;
-canvasElement.addEventListener('touchstart', function(e){
-	if (e.touches.length === 1) {
+canvasElement.addEventListener('touchstart', evt => {
+	if (evt.touches.length === 1) {
 		// Just one finger touched
-		startX = e.touches.item(0).clientX;
-		startY = e.touches.item(0).clientY;
+		startX = evt.touches.item(0).clientX;
+		startY = evt.touches.item(0).clientY;
 	} else {
 		// If a second finger hit the screen, abort the touch
 		start = null;
@@ -57,11 +57,11 @@ canvasElement.addEventListener('touchstart', function(e){
 	}
 });
 
-canvasElement.addEventListener('touchend', function(e){
+canvasElement.addEventListener('touchend', evt => {
 	let offset = 100; // At least 100px are a swipe
 	if (startX || startY) {
-		let endX = e.changedTouches.item(0).clientX;
-		let endY = e.changedTouches.item(0).clientY;
+		let endX = evt.changedTouches.item(0).clientX;
+		let endY = evt.changedTouches.item(0).clientY;
 
 		// Left to right swipe
 		if (endX > startX + offset) {

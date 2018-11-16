@@ -64,7 +64,7 @@ var Engine = (function(global) {
      */
     function init() {
         for (playGameBtn of playGameElement) {
-            playGameBtn.addEventListener('click', function() {
+            playGameBtn.addEventListener('click', () => {
                 reset();
                 lastTime = Date.now();
                 main();
@@ -104,9 +104,9 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        for (enemy of allEnemies) {
             enemy.update(dt);
-        });
+        }
         player.update(dt);
         item.update(dt);
     }
@@ -164,9 +164,9 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        for (enemy of allEnemies) {
             enemy.render();
-        });
+        }
         player.render();
         item.render();
     }

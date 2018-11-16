@@ -48,7 +48,6 @@ class Player extends Entity {
 		if (this.isOutOfBoundsY) {
 			// Add 50 points per each unused 1/2 of time
 			if (this.seconds > 5) {
-				console.log('plus 50');
 				this.addPoints(50);
 			}
 
@@ -290,18 +289,18 @@ class Enemy extends Entity {
 	}
 
 	setSpeed(speed, time) {
-		let enemySpeed = [];
-        let i = 0;
+		this.enemySpeed = [];
+        this.speedCounter = 0;
 
         for(enemy of allEnemies) {
-            enemySpeed.push(enemy.speed);
+            this.enemySpeed.push(enemy.speed);
             enemy.speed = speed;
         }
 
-        setTimeout(function () {
+        setTimeout(() => {
             for(enemy of allEnemies) {
-                enemy.speed = enemySpeed[i];
-                i += 1;
+                enemy.speed = this.enemySpeed[this.speedCounter];
+                this.speedCounter += 1;
             }
         }, time);
 	}

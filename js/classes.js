@@ -304,6 +304,7 @@ class Player extends Entity {
 		this.score = 0;
 		this.lives = 3;
 		this.setTimer();
+		this.checkHighscore();
 
 		scoreElement.innerText = `Score: ${this.score}`;
 		for (let i = 0; i < this.lives; i++) {

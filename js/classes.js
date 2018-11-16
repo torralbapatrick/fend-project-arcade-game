@@ -28,7 +28,7 @@ class Entity {
 	 * @return {void}
 	 */
 	render() {
-		ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
+		ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 75);
 	}
 
 	/**

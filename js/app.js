@@ -20,8 +20,10 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
-    player.handleInput(allowedKeys[e.keyCode]);
+    
+	if (canvasElement.style.display === 'block' && statsElement.style.display == 'block') {
+    	player.handleInput(allowedKeys[e.keyCode]);
+    }
 });
 
 for (playGameBtn of playGameElement) {

@@ -241,7 +241,6 @@ class Player extends Entity {
 
 		window.setTimeout(() => {
 			this.hasOrangeGem = false;
-			console.log(this.hasOrangeGem);
 		}, 3000);
 	}
 

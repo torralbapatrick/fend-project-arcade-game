@@ -100,3 +100,9 @@ canvasElement.addEventListener('touchend', evt => {
 		}
 	}
 });
+
+/**
+ * @description Disables scrolling for mobile devices
+ * @return {void}
+ */
+canvasElement.addEventListener('touchmove', evt => evt.preventDefault());

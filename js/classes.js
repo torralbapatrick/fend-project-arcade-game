@@ -38,6 +38,7 @@ class Player extends Entity {
 		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
 		this.checkHighscore();
 		this.hasOrangeGem = false;
+		this.blocksCovered = [];
 	}
 
 	update(dt) {
@@ -47,7 +48,8 @@ class Player extends Entity {
 		if (this.isOutOfBoundsY) {
 			super.resetPosition(); // Reset player position
 			this.setTimer(); // Reset timer
-			this.addPoints(100); // Add 100 points when the player wins or reaches the water
+			this.addPoints(90); // Add 100 points when the player wins or reaches the water
+			this.blocksCovered = [];
 
 			// Change the character when the player wins
 			this.charCounter += 1;
@@ -74,6 +76,8 @@ class Player extends Entity {
 				this.moveRight = false;
 				this.moveUp = true;
 				this.moveDown = false;
+				this.checkCoveredBlocks();
+
 				break;
 			case 'right':
 				this.x = this.x < 4 ? this.x + 1 : this.x;
@@ -158,6 +162,21 @@ class Player extends Entity {
 		scoreElement.innerText = `Score: ${this.score}`;
 	}
 
+	checkCoveredBlocks() {
+		this.covered = false;
+
+		for (this.block of this.blocksCovered) {
+			if (this.y === this.block) {
+				this.covered = true;
+			}
+		}
+
+		if (!this.covered) {
+			this.addPoints(10);
+		}
+		this.blocksCovered.push(this.y);
+	}
+
 	multiplyPoints() {
 		this.hasOrangeGem = true;
 
@@ -180,7 +199,9 @@ class Player extends Entity {
 			gameOverElement.style.display = 'block';
 			canvasElement.style.display = 'none';
 			statsElement.style.display = 'none';
-		}			
+		}
+
+		this.blocksCovered = [];
 	}
 
 	checkHighscore() {

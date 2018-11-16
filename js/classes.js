@@ -161,7 +161,7 @@ class Player extends Entity {
 			if (this.y === item.y) { // Check if the player and the item is in the same Y axis
 				if (this.x >= item.x - 0.5 && this.x <= item.x + 0.5) { // Check if the player collides with an item
 					// Check item
-					if (item.sprite.includes('rock')) {
+					if (item.sprite.includes('Rock')) {
 						// Rock obstacle
 						if (this.moveLeft) {
 							this.x += 1;

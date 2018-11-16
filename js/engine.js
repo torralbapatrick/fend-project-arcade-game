@@ -87,12 +87,9 @@ var Engine = (function(global) {
     }
 
     function checkCollisions() {
-        // Check if the player collides with an enemy
         for (enemy of allEnemies) {
             player.checkCollisions(enemy);
         }
-
-        // Check if the player collides with an item
         player.checkCollisions(item);
     }
 

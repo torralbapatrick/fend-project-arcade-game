@@ -1,25 +1,52 @@
+/**
+ * @fileOverview Classes for handling the game logic
+ * @author {Patrick Torralba} torralbapatrick15@gmail.com
+ */
+
 // Main class
 class Entity {
+	/**
+	 * @description Sets the initial position and image directory
+	 * @return {void}
+	 */
 	constructor() {
 		this.sprite = 'images/';
 		this.resetPosition();
 	}
 
-	// Set the initial position at the middle of the canvas
+	/**
+	 * @description Set the initial position at the middle of the canvas
+	 * @return {void}
+	 */
 	resetPosition() {
 		this.x = 2; 
 		this.y = 5;
 	}
 
+	/**
+	 * @description This function initially draws the image (see engine.js)
+	 * @return {void}
+	 */
 	render() {
 		ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
 	}
 
+	/**
+	 * @description For smooth animation (see engine.js)
+	 * @param  {delta time} dt - Constant value for everyone (regardless of how fast their computer is)
+	 * @return {void}
+	 */
 	update(dt) {
 		this.isOutOfBoundsX = this.x > 5;
 		this.isOutOfBoundsY = this.y < 1;
 	}
 
+	/**
+	 * @description Returns a random integer
+	 * @param  {number} max - The highest possible number
+	 * @param  {number} min - The lowest possible number
+	 * @return {number}
+	 */
 	randomInt(max, min) {
 		this.randomInt = Math.floor(Math.random() * max) + min;
 		return this.randomInt;
@@ -36,36 +63,21 @@ class Player extends Entity {
 		this.score = 0;
 		this.lives = 3;
 		this.moveLeft = false, this.moveRight = false, this.moveUp = false, this.moveDown = false;
-		this.checkHighscore();
 		this.hasOrangeGem = false;
 		this.blocksCovered = [];
+		this.checkHighscore();
 	}
 
 	update(dt) {
 		super.update();
-
-		// Check if the player reaches the water
-		if (this.isOutOfBoundsY) {
-			// Add 50 points per each unused 1/2 of time
-			if (this.seconds > 5) {
-				this.addPoints(50);
-			}
-
-			super.resetPosition(); // Reset player position
-			this.setTimer(); // Reset timer
-			this.addPoints(90); // Add 100 points when the player wins or reaches the water
-			this.blocksCovered = [];
-
-			// Change the character when the player wins
-			this.charCounter += 1;
-			if (this.charCounter >= this.allCharacters.length) {
-				this.charCounter = 0;
-			}
-			this.sprite = 'images/' + this.allCharacters[this.charCounter];
-		}
+		this.checkWinner();
 	}
 
-	// Player controls
+	/**
+	 * @description Handles player controls
+	 * @param  {number} input - Keyboard event keycode
+	 * @return {void}
+	 */
 	handleInput(input) {
 		switch (input) {
 			case 'left':
@@ -82,7 +94,6 @@ class Player extends Entity {
 				this.moveUp = true;
 				this.moveDown = false;
 				this.checkCoveredBlocks();
-
 				break;
 			case 'right':
 				this.x = this.x < 4 ? this.x + 1 : this.x;
@@ -103,6 +114,36 @@ class Player extends Entity {
 		}
 	}
 
+	/**
+	 * @description Checks if the player reaches the water
+	 * @return {void}
+	 */
+	checkWinner() {
+		if (this.isOutOfBoundsY) {
+			// Add 50 points per each unused 1/2 of time
+			if (this.seconds > 5) {
+				this.addPoints(50);
+			}
+
+			super.resetPosition(); // Reset player position
+			this.setTimer(); // Reset timer
+			this.addPoints(90); // Add 100 points when the player wins or reaches the water
+			this.blocksCovered = []; // Reset blocks covered
+
+			// Change the character everytime the player wins
+			this.charCounter += 1;
+			if (this.charCounter >= this.allCharacters.length) {
+				this.charCounter = 0;
+			}
+			this.sprite = 'images/' + this.allCharacters[this.charCounter];
+		}
+	}
+
+	/**
+	 * @description Checks if the player collides with an enemy or an item
+	 * @param  {object} entity
+	 * @return {boolean}
+	 */
 	checkCollisions(entity) {
 		if (entity === enemy) {
 			if (this.y === enemy.y) { // Check if the player and the enemy is in the same Y axis
@@ -142,8 +183,10 @@ class Player extends Entity {
 							// Multiply points for 3 seconds
 							this.multiplyPoints();
 						} else if (item.sprite.includes('star')) {
+							// Add 500 bonus points
 							this.addPoints(500);
 						} else if (item.sprite.includes('heart')) {
+							// Adds 1 life
 							if (this.lives < 3) {
 								this.lives += 1;
 								livesElement.innerHTML += `<li><i class="fas fa-heart"></i></li> `;
@@ -161,12 +204,19 @@ class Player extends Entity {
 		}
 	}
 
+	/**
+	 * @description Add points
+	 * @param {number} points
+	 */
 	addPoints(points) {
 		this.hasOrangeGem ? this.score += points * 2 : this.score += points;
-
 		scoreElement.innerText = `Score: ${this.score}`;
 	}
 
+	/**
+	 * @description Checks the Y axis. If it's not been covered or stepped on, add 10 points
+	 * @return {void}
+	 */
 	checkCoveredBlocks() {
 		this.covered = false;
 
@@ -182,6 +232,10 @@ class Player extends Entity {
 		this.blocksCovered.push(this.y);
 	}
 
+	/**
+	 * @description Multiply points by 2 for 3 seconds
+	 * @return {void}
+	 */
 	multiplyPoints() {
 		this.hasOrangeGem = true;
 
@@ -191,6 +245,10 @@ class Player extends Entity {
 		}, 3000);
 	}
 
+	/**
+	 * @description Decrease player lives by 1
+	 * @return {void}
+	 */
 	decreaseLives() {
 		this.lives -= 1;
 		livesElement.removeChild(livesElement.children[0]);
@@ -206,9 +264,14 @@ class Player extends Entity {
 			statsElement.style.display = 'none';
 		}
 
+		// Reset blocks covered
 		this.blocksCovered = [];
 	}
 
+	/**
+	 * @description Checks the highscore
+	 * @return {void}
+	 */
 	checkHighscore() {
 		this.highscore = window.localStorage.getItem('highscore');
 
@@ -227,6 +290,10 @@ class Player extends Entity {
 		document.querySelector('.highscore').innerText = `Highscore: ${this.highscore}`;
 	}
 
+	/**
+	 * @description Resets player values
+	 * @return {void}
+	 */
 	resetValues() {
 		super.resetPosition();
 		item.resetPosition();
@@ -244,6 +311,9 @@ class Player extends Entity {
 		}
 	}
 
+	/**
+	 * @description Sets the timer for 10 seconds
+	 */
 	setTimer() {
 		clearInterval(this.timer);
 		this.seconds = 10;
@@ -262,6 +332,10 @@ class Player extends Entity {
 		}, 1000);
 	}
 
+	/**
+	 * @description Stops the timer
+	 * @return {void}
+	 */
 	stopTimer() {
 		clearInterval(this.timer);
 	}
@@ -280,14 +354,21 @@ class Enemy extends Entity {
 	update(dt) {
 		super.update();
 
+		// Check if the enemy is out of bounds
 		if (this.isOutOfBoundsX) {
 			this.x = -1;
 			this.speed = super.randomInt(4, 1);
 		} else {
-			this.x += dt * this.speed; // Sets the enemy's speed to random
+			// Sets the enemy's speed to random
+			this.x += dt * this.speed;
 		}
 	}
 
+	/**
+	 * @description Sets the enemy's speed
+	 * @param {number} speed - The speed of the enemy
+	 * @param {number} time - The desired time
+	 */
 	setSpeed(speed, time) {
 		this.enemySpeed = [];
         this.speedCounter = 0;
@@ -316,7 +397,15 @@ class Item extends Entity {
 		this.resetPosition();
 	}
 
-	// Hide the item at the beginning of the game
+	update(dt) {
+		super.update();
+		this.spawnItem(dt, 7);
+	}
+
+	/**
+	 * @description Hides the item at the beginning of the game
+	 * @return {void}
+	 */
 	resetPosition() {
 		super.resetPosition();
 		this.x = -1;
@@ -324,15 +413,15 @@ class Item extends Entity {
 		this.seconds = 1;
 	}
 
-	update(dt) {
-		super.update();
-		this.spawnItem(dt, 7); // Spawn an item every 7 seconds
-	}
-
+	/**
+	 * @description Spawns a random item in random location for a desired time
+	 * @param  {number} dt - Delta time
+	 * @param  {number} spawnTime - The desired spawn time
+	 * @return {void}
+	 */
 	spawnItem(dt, spawnTime) {
 		this.seconds += dt;
 
-		// Spawn a random item in random location
 		if (Math.floor(this.seconds) % spawnTime === 0) {
 			this.itemCounter = super.randomInt(6, 0);
 			this.sprite = 'images/' + this.allItems[this.itemCounter];

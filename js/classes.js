@@ -46,6 +46,12 @@ class Player extends Entity {
 
 		// Check if the player reaches the water
 		if (this.isOutOfBoundsY) {
+			// Add 50 points per each unused 1/2 of time
+			if (this.seconds > 5) {
+				console.log('plus 50');
+				this.addPoints(50);
+			}
+
 			super.resetPosition(); // Reset player position
 			this.setTimer(); // Reset timer
 			this.addPoints(90); // Add 100 points when the player wins or reaches the water
